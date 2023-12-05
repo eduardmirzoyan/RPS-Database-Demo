@@ -1,8 +1,11 @@
 import os
 import rps
+import database
 
 
 def main():
+    db = database.Database()
+
     while True:
         os.system("cls")
         print("::: Welcome to RPS :::")
@@ -13,16 +16,17 @@ def main():
         value = input("-> ")
 
         if value == "1":
-            play_rps()
+            play_rps(db)
         if value == "2":
-            display_stats()
+            display_stats(db)
         if value == "3":
             break
 
+    db.close()
     return 0
 
 
-def play_rps():
+def play_rps(db: database.Database):
     game = rps.RPS()
     while True:
         os.system("cls")
@@ -35,7 +39,8 @@ def play_rps():
             choice = int(value)
 
             os.system("cls")
-            game.play(choice)
+            result = game.play(choice)
+            db.log_game(result[0], result[1], result[2])
 
             print("\n~~~ Play again? ~~~")
             print("1. Yes")
@@ -49,8 +54,11 @@ def play_rps():
             print("Invalid input...")
 
 
-def display_stats():
+def display_stats(db: database.Database):
     print("::: Displaying stats :::")
+    statistics = db.get_stats()
+    print(statistics)
+
     input("-> Press [ENTER] to go back...")
 
 
