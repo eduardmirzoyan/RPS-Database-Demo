@@ -55,11 +55,42 @@ def play_rps(db: database.Database):
 
 
 def display_stats(db: database.Database):
-    print("::: Displaying stats :::")
-    statistics = db.get_stats()
-    print(statistics)
+    while True:
+        os.system("cls")
+        print("::: Statistics :::")
+        print("~~~ What do you want to view? ~~~")
+        print("1. Match History")
+        print("2. Winrate")
+        print("3. Clear data")
+        print("4. Back")
+        value = input("-> ")
 
-    input("-> Press [ENTER] to go back...")
+        if value == "1":
+            os.system("cls")
+            print("::: Match History :::")
+            print("(index, Player throw, CPU throw, result)")
+            statistics = db.get_match_history()
+            print(statistics)
+
+            input("-> Press [ENTER] to go back...")
+        if value == "2":
+            os.system("cls")
+            print("::: Winrate Data :::")
+            statistics = db.get_winrate()
+            print(statistics)
+
+            input("-> Press [ENTER] to go back...")
+        if value == "3":
+            db.clear()
+
+            os.system("cls")
+            print("Database cleared.")
+
+            input("-> Press [ENTER] to continue...")
+        if value == "4":
+            break
+        else:
+            print("Invalid Input.")
 
 
 if __name__ == "__main__":
